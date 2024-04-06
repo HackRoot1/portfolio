@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <!-- ======== email.js cdn link =========== -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+    
+    <!-- ===== Iconscout CSS ====== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+
+    
+    <!-- ======== jquery link ========= -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- ================ Font Awesome Icons =========== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+</head>
+<body>
+    
+    <!-- ========================= Navigation Bar ======================= -->
+
+    <nav>
+        <div class = "logo">AlgoAtlas</div>
+        <div class = "nav-links">
+            <a href="#">Home</a>
+            <a href="#">About Me</a>
+            <a href="#">Skills</a>
+            <a href="#">Projects</a>
+            <a href="#">Education</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class = "switch-btn">
+            <div class = "switch-toggle-btn">
+                <div class="toggle-icon">
+                    <!-- <i class="uil uil-brightness"></i> -->
+                    <i class="uil uil-moon"></i>
+                </div>
+            </div>
+        </div>
+        <div class = "sidebar-btn">
+            <i class="uil uil-bars"></i>
+            <!-- <i class="uil uil-times"></i> -->
+        </div>
+    </nav>
+
+
+    <section id="sidebar-nav">
+        <div class = "sidebar-nav-section">
+            <div class = "nav-links">
+                <a href="#">Home</a>
+                <a href="#">About Me</a>
+                <a href="#">Skills</a>
+                <a href="#">Projects</a>
+                <a href="#">Education</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class = "switch-btn">
+                <div class = "switch-text">Appearance</div>
+                <div class = "switch-toggle-btn">
+                    <div class="toggle-icon">
+                        <!-- <i class="uil uil-brightness"></i> -->
+                        <i class="uil uil-moon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "social-links">
+                <div class="link-items">
+                    <a href="">
+                        <i class="uil uil-instagram"></i>
+                    </a>
+                </div>
+                <div class="link-items">
+                    <a href="">
+                        <i class="uil uil-github"></i>
+                    </a>
+                </div>
+                <div class="link-items">
+                    <a href="">
+                        <i class="uil uil-twitter"></i>
+                    </a>
+                </div>
+                <div class="link-items">
+                    <a href="">
+                        <i class="uil uil-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            $(".sidebar-btn").on("click", function () {
+                $("#sidebar-nav").slideToggle(1000);  
+                // $("nav .switch-btn").fadeToggle();  
+                $(".sidebar-btn i").toggleClass("uil-bars");
+                $(".sidebar-btn i").toggleClass("uil-times");
+                $("main").fadeToggle();
+            });
+            
+            // $("#sidebar-nav").on("change", function() {
+                $("#sidebar-nav").hide();
+            // });
+
+            $(".toggle-icon").on("click", function() {
+                $("body").toggleClass("dark");
+                $(".toggle-icon i").toggleClass("uil uil-brightness");
+                $(".switch-toggle-btn").toggleClass("move-switch");
+
+            });
+        });
+    </script>
+    <!-- ========================= End Navigation ======================= -->
+
+
+
+    <!-- ========================= Main Section ========================= -->
+    <main>
+        <!-- 1. Fixed  Sidebar  -->
+
+        <!-- 2. About Section -->
+        <section id = "about-section">
+            <div class = "about-information">
+                <div class = "note">Hello I'm </div>
+                <div class = "name">Saurabh Damale</div>
+                <div class = "role">Full Stack Developer</div>
+                <div class = "links">
+                    <a href="#">Download CV <span><i class="uil uil-download-alt"></i></span></a>
+                    <a href="#">Download Resume <span><i class="uil uil-download-alt"></i></span></a>
+                </div>
+                
+            </div>
+            <div class = "about-illustration">
+                <div class = "square-rotate1"></div>
+                <div class="text">AlgoAtlas</div>
+                <div class = "square-rotate2"></div>
+            </div>
+        </section>
+
+        <hr>
+        <!-- 3. Skills Section -->
+        <section id="skills-section">
+
+            <div class="title">My Skills</div>
+            <div class="skill-list">
+
+                <div><span style = "--i: red"><i class="fab fa-html5"></i></span> HTML</div>
+                <div><span style = "--i: red"><i class="fab fa-css3-alt"></i></span> CSS</div>
+                <div><span style = "--i: yellow"><i class="fab fa-js"></i></span> JavaScript</div>
+                <div><span style = "--i: blue"><i class="fab fa-bootstrap"></i></span> Bootstrap</div>
+                <div><span style = "--i: blue"><i class="fas fa-code"></i></span> Tailwind CSS</div>
+                <div><span style = "--i: blue"><i class="fab fa-php"></i></span> PHP</div>
+                <div><span style = "--i: red"><i class="fas fa-database"></i></span> MySQL</div>
+                <div><span style = "--i: red"><i class="fab fa-js-square"></i></span> JQuery</div>
+                <div><span style = "--i: red"><i class="fas fa-code"></i></span> Ajax</div>
+                <div><span style = "--i: green"><i class="fab fa-envira"></i></span> MongoDb</div>
+                <div><span style = "--i: red"><i class="fab fa-node-js"></i></span> Node.js</div>
+                <div><span style = "--i: blue"><i class="fab fa-react"></i></span> React</div>
+                <div><span style = "--i: red"><i class="fas fa-code"></i></span> Express</div>
+                <div><span style = "--i: red"><i class="fas fa-code"></i></span> Laravel</div>
+                <div><span style = "--i: red"><i class="fas fa-code"></i></span> CodeIgniter</div>
+            </div>
+
+        </section>
+        <!-- 4. Project Section -->
+
+        <hr>
+
+        <section id="project-section">
+            <div class="title">My Projects</div>
+            <div class="project-list">
+
+                <div class="box">
+                    <div class = "box-item">
+                        <div class = "box-info">
+                            <div class="background-img" style = "--img : url(./todo.png)"></div>
+                            <div class="title">To Do WebApp</div>
+                            <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, quo.</div>
+                            <div class="links">
+                                <a href="#">Code <i class="fas fa-arrow-right"></i></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class = "box-item">
+                        <div class = "box-info">
+                            <div class="background-img" style = "--img : url(./hms.png)"></div>
+                            <div class="title">HMS</div>
+                            <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, quo.</div>
+                            <div class="links">
+                                <a href="#">Code <i class="fas fa-arrow-right"></i></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class = "box-item">
+                        <div class = "box-info">
+                            <div class="background-img" style = "--img : url(./job_portal.png)"></div>
+                            <div class="title">Job Portal</div>
+                            <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, quo.</div>
+                            <div class="links">
+                                <a href="#">Code <i class="fas fa-arrow-right"></i></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class = "box-item">
+                        <div class = "box-info">
+                            <div class="background-img" style = "--img : url(./rms.png)"></div>
+                            <div class="title">RMS</div>
+                            <div class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, quo.</div>
+                            <div class="links">
+                                <a href="#">Code <i class="fas fa-arrow-right"></i></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- 5. Education Section -->
+
+        <hr>
+
+        <section id = "education-section">
+            <div class = "title">My Education</div>
+            <div class = "education-boxes">
+                <div class="illustration">
+                    <img src="./college.png" alt="My Education">
+                </div>
+                <div class="edu-details">
+                    <div class = "box">
+                        <div class="name">MSc. in Information Technology</div>
+                        <div class="year">2022-23</div>
+                        <div class="info">SONUBHAU BASWANT COLLEGE, SHAHAPUR</div>
+                    </div>
+                    <div class = "box">
+                        <div class="name">BSC in Information Technology</div>
+                        <div class="year">2020-21</div>
+                        <div class="info">SONUBHAU BASWANT COLLEGE, SHAHAPUR?</div>
+                    </div>
+                    <div class = "box">
+                        <div class="name">HSC</div>
+                        <div class="year">2017-18</div>
+                        <div class="info"> J.S.S.P. COLLEGE, KHARDI</div>
+                    </div>
+                    <div class = "box">
+                        <div class="name">SSC</div>
+                        <div class="year">2015-16</div>
+                        <div class="info"> K.V.E.S. HIGHSCHOOL, KHARDI</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr>
+        <!-- 6. Certificates Section -->
+
+        <!-- 7. Contact Section -->
+        <section id="contact-section">
+            <div class = "title">Contact Me</div>
+            <div class = "contact-details">
+                <div class = "contact-info">
+                    <div class = "name">
+                        Saurabh Damale
+                    </div>
+                    <div class = "contact-using">
+                        <div>
+                            Phone: +91 7709131547 <br>
+                        </div>
+                        
+                        <div style = "word-wrap: break-word;">
+                            Email : 
+                            saurabh.damale.developer@gmail.com
+                        </div>
+                    </div>
+
+                    <div>
+                        Connect With Me
+                    </div>
+                    
+                    <div class = "social-links">
+                        <span>
+                            <a href="https://www.instagram.com/algoatlas?igsh=YnlhMTY0bmMybTJt">
+                                <i style = "color: purple;" class="uil uil-instagram"></i>
+                            </a>
+                        </span>
+                        <span><i style = "color: blue;" class="uil uil-facebook"></i></span>
+                        <span>
+                            <a href="https://github.com/HackRoot1">
+                                <i style = "color: rgb(58, 58, 58);" class="uil uil-github"></i>
+                            </a>
+                        </span>
+                        <span><i style = "color: blue;" class="uil uil-twitter"></i></span>
+                    </div>
+                </div>
+
+                
+                <div class = "contact-form">
+                    <form id = "form-info">
+                        <div>
+                            <div>
+                                <input type="text" name = "fname" id = "firstName" placeholder="First Name">
+                                <input type="text" name = "lname" id = "lastName" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div>
+                            <input type="email" name="email" id="email" placeholder="E-mail Address">
+                        </div>
+                        <div class = "feedback">
+                            <textarea name="feedback" id="feedback" cols="30" rows="5" placeholder="Give Me Some Feedback Here...."></textarea>
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit" id = "form-info-btn">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+
+        
+    </main>
+    <!-- ========================= End Main Section ===================== -->
+
+
+    <hr>
+
+
+    <footer> 
+        Credits goes to Saurabh Damale
+    </footer>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("A8WOpcYrB7cNM98T7");
+        })();
+        $(document).ready(function(){
+
+            $("#form-info").on("submit", function(e){
+                e.preventDefault(); // Prevent the default form submission
+
+                // alert("Submitted");
+                // let info = $(this).serialize();
+                // let formData = $(this).serialize();
+                let firstName = $("#firstName").val();
+                let lastName= $("#lastName").val();
+                let email= $("#email").val();
+
+                if(firstName != "" && lastName != "" && email != "" && email.match(/@gmail.com$/)) {
+                    let formData = {
+                        firstName : firstName,
+                        lastName : lastName,
+                        email : email,
+                        feedback : $("#feedback").val()
+                    }
+                    emailjs.send("service_ex9672a", "template_tua6e6k", formData)
+                        .then(function(response) {
+                            $("#form-info").trigger('reset');
+                            alert("Email sent successfully:", response);
+                        }, function(error) {
+                            alert("Error sending email:", error);
+                    });
+                }else{
+                    alert("Please fill out all contact fields.");
+                }
+                
+            });
+        });
+    </script>
+
+</body>
+</html>
