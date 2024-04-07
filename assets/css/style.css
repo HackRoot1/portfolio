@@ -74,6 +74,10 @@
 
     nav .logo {
         font-family: 'Sofia', cursive;
+        background: linear-gradient(90deg, #00ffff, #ff00c3);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     nav .nav-links {
         display: flex;
@@ -411,10 +415,15 @@
     width: 100%;
     height: 100%;
     font-size: 5rem;
-    background: linear-gradient(90deg, #00ffff, #ff00c3);
-    -webkit-background-clip: text;
+
+    background: linear-gradient( to left, #bd34fe 50%, #47caff );
+    
+    background-size: 200% auto;
     background-clip: text;
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    width: -webkit-fill-available;
+
     animation: animateText 3s linear infinite;
 }
 
@@ -833,14 +842,69 @@ hr {
 #education-section > .education-boxes .box {
     width: 100%;
     background-color: var(--box-color);
-    padding: 20px;
     color: var(--color);
     min-height: 150px;
 
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: space-around; */
+    border: 3px solid var(--box-color);
+    
+    cursor: pointer;
+    color: var(--color);
+    margin: 0 auto;
+    position: relative;
+    border-radius: 10px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#education-section > .education-boxes .box:hover {
+    padding: 3px;
+    box-shadow: 0px 0px 1rem rgba(0, 0, 255, 0.505);
+}
+
+
+#education-section > .education-boxes .box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 400%;
+    height: 100%;
+    background: linear-gradient(115deg,#4fcf70,#fad648,#a767e5,#12bcfe,#44ce7b);
+    background-size: 25% 100%;
+    animation: animate-border .75s linear infinite;
+    animation-play-state: paused;
+    translate: -5% 0%;
+    transition: translate 0.25s ease-out;
+}
+
+#education-section > .education-boxes .box:hover::before {
+    animation-play-state: running;
+    transition-duration: 0.75s;
+    translate: 0% 0%;
+}
+
+@keyframes animate-border {
+    to {
+        transform: translateX(-25%);
+    }
+}
+
+#education-section > .education-boxes .box > div{
+    position: relative;
+    /* display: block; */
+    padding: 1rem 1.5rem;
+    background: var(--box-color);
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border-radius: 15px;
+    border-radius: 7px;
 }
 
 
@@ -867,6 +931,11 @@ hr {
         flex-direction: column;
     }
     
+    #education-section > .education-boxes .box{
+        width: 100%;
+        height: 150px;
+    }
+    
     #education-section > .education-boxes > div{
         width: 100%;
     }
@@ -890,12 +959,18 @@ hr {
         display: flex;
         flex-direction: column;
     }
+    #education-section > .education-boxes .box{
+        width: 100%;
+        height: 150px;
+    }
     
     #education-section > .education-boxes > div{
         width: 100%;
     }
-    #education-section > .education-boxes .illustration{
-        display: none;
+
+    #education-section > .education-boxes .illustration img{
+        width: 70%;
+        margin: 50px 0;
     }
 }
 
