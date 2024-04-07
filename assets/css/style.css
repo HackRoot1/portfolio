@@ -10,18 +10,9 @@
 
         /* font-family: 'Poppins', sans-serif; */
         /* font-family: 'Sofia', cursive; */
-    }
+        scroll-behavior: smooth;
 
-    /* main section:not(:nth-child(2)) {
-        scale : .8; opacity: 0;
-        animation: fade-in linear forwards;
-        animation-timeline: view();
-        animation-range: 100px 50vh;
     }
-    
-    @keyframes fade-in {
-        to { scale: 1; opacity: 1;}
-    } */
 
     
     /* Dark mode colors */
@@ -148,23 +139,23 @@
     
     /* width */
     ::-webkit-scrollbar {
-        width: 0px;
+        width: 5px;
     }
     
     /* Track */
-    ::-webkit-scrollbar-track {
+    /* ::-webkit-scrollbar-track {
         background: var(--box-color); 
-    }
+    } */
     
     /* Handle */
-    ::-webkit-scrollbar-thumb {
+    /* ::-webkit-scrollbar-thumb {
         background: var(--background-color); 
-    }
+    } */
     
     /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
+    /* ::-webkit-scrollbar-thumb:hover {
         background: #000000; 
-    }
+    } */
 
 
 @media (min-width: 320px) and (max-width: 767.98px) {
@@ -529,7 +520,7 @@
     }
 
     .about-information .links a {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     
@@ -704,17 +695,6 @@ hr {
     gap: 5px;
 
 }
-
-/* 
-main section:not(:nth-child(2)) {
-    scale : .8; opacity: 0;
-    animation: fade-in linear forwards;
-    animation-timeline: view();
-    animation-range: 100px 50vh;
-}
-
-
-*/
 
 .project-list {
     display: grid;

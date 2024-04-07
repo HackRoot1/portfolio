@@ -29,12 +29,11 @@
     <nav>
         <div class = "logo">AlgoAtlas</div>
         <div class = "nav-links">
-            <a href="#">Home</a>
-            <a href="#">About Me</a>
-            <a href="#">Skills</a>
-            <a href="#">Projects</a>
-            <a href="#">Education</a>
-            <a href="#">Contact</a>
+            <a href="#about-section">About Me</a>
+            <a href="#skills-section">Skills</a>
+            <a href="#project-section">Projects</a>
+            <a href="#education-section">Education</a>
+            <a href="#contact-section">Contact</a>
         </div>
         <div class = "switch-btn">
             <div class = "switch-toggle-btn">
@@ -55,11 +54,11 @@
         <div class = "sidebar-nav-section">
             <div class = "nav-links">
                 <a href="#">Home</a>
-                <a href="#">About Me</a>
-                <a href="#">Skills</a>
-                <a href="#">Projects</a>
-                <a href="#">Education</a>
-                <a href="#">Contact</a>
+                <a href="#about-section">About Me</a>
+                <a href="#skills-section">Skills</a>
+                <a href="#project-section">Projects</a>
+                <a href="#education-section">Education</a>
+                <a href="#contact-section">Contact</a>
             </div>
             <div class = "switch-btn">
                 <div class = "switch-text">Appearance</div>
@@ -83,12 +82,12 @@
                     </a>
                 </div>
                 <div class="link-items">
-                    <a href="">
+                    <a href="#">
                         <i class="uil uil-twitter"></i>
                     </a>
                 </div>
                 <div class="link-items">
-                    <a href="">
+                    <a href="#">
                         <i class="uil uil-youtube"></i>
                     </a>
                 </div>
@@ -99,17 +98,21 @@
 
     <script>
         $(document).ready(function () {
+            $("#sidebar-nav").hide();
+
             $(".sidebar-btn").on("click", function () {
                 $("#sidebar-nav").slideToggle(1000);  
-                // $("nav .switch-btn").fadeToggle();  
                 $(".sidebar-btn i").toggleClass("uil-bars");
                 $(".sidebar-btn i").toggleClass("uil-times");
                 $("main").fadeToggle();
             });
             
-            // $("#sidebar-nav").on("change", function() {
-                $("#sidebar-nav").hide();
-            // });
+            $("#sidebar-nav a").on("click", function () {
+                $("#sidebar-nav").slideUp(1000);  
+                $(".sidebar-btn i").toggleClass("uil-bars");
+                $(".sidebar-btn i").toggleClass("uil-times");
+                $("main").fadeToggle();
+            });
 
             $(".toggle-icon").on("click", function() {
                 $("body").toggleClass("dark");
