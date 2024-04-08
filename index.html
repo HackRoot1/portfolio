@@ -25,6 +25,26 @@
 <body>
     
     <!-- ========================= Navigation Bar ======================= -->
+    <section id = "top-scrollbar">
+        <i class="fa-solid fa-angle-up"></i>
+    </section>
+
+
+    <script>
+        topScrollbar = document.getElementById("top-scrollbar");
+        window.addEventListener("scroll", function() {
+            topScrollbar.style.opacity = (window.scrollY > 30) ? "1" : "0";
+        });
+
+        topScrollbar.addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+    </script>
+
 
     <nav>
         <div class = "logo">AlgoAtlas</div>
