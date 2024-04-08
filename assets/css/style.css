@@ -48,7 +48,7 @@
         
         --border-color: rgb(60 63 68);
         --toggle-bg-btn: #00000071;
-
+        --link-tab-hover: rgb(219 39 119);
 
         scroll-behavior: smooth;
         font-size: 16px;
@@ -143,19 +143,18 @@
     }
     
     /* Track */
-    /* ::-webkit-scrollbar-track {
-        background: var(--box-color); 
-    } */
-    
+    ::-webkit-scrollbar-track {
+        background: var(--pure-background); 
+    }
     /* Handle */
-    /* ::-webkit-scrollbar-thumb {
-        background: var(--background-color); 
-    } */
+    ::-webkit-scrollbar-thumb {
+        background: var(--color); 
+    }
     
     /* Handle on hover */
-    /* ::-webkit-scrollbar-thumb:hover {
-        background: #000000; 
-    } */
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--box-color); 
+    }
 
 
 @media (min-width: 320px) and (max-width: 767.98px) {
@@ -649,6 +648,20 @@ body.dark #skills-section .skill-list div:hover {
     #skills-section .skill-list div {
         padding: 10px 10px;
         font-size: 20px;
+        padding: 15px 20px;
+        font-size: 20px;
+        background-color: var(--box-color);
+        color: var(--color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    #skills-section .skill-list div i{
+        font-size: 2rem;
+        color: var(--i);
     }
 
 }
@@ -877,9 +890,6 @@ hr {
     color: var(--color);
     min-height: 150px;
 
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* justify-content: space-around; */
     border: 3px solid var(--box-color);
     
     cursor: pointer;
@@ -1104,9 +1114,29 @@ hr {
     gap: 20px;
 }
 
+#contact-section .contact-details > .contact-info .social-links span{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--tab1-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+
 #contact-section .contact-details > .contact-info .social-links a{
     text-decoration: none;
     color: var(--color);
+}
+
+#contact-section .contact-details > .contact-info .social-links span:hover{
+    border: 2px solid var(--link-tab-hover);
+}
+#contact-section .contact-details > .contact-info .social-links span a:hover{
+    color: var(--h);
 }
 
 
@@ -1182,8 +1212,7 @@ hr {
     
     #contact-section .contact-details > .contact-info .name{
         font-size: 1.5rem;
-    }
-
+    }    
     #contact-section .contact-details > .contact-info .social-links a{
         font-size: 1.5rem;
     }
@@ -1206,5 +1235,4 @@ footer {
     align-items: flex-start;
     height: 50px;
     color: var(--color);
-    /* background-color: var(--box-color); */
 }
