@@ -1,6 +1,0 @@
-1. SVG for about section
-2. colorful icons for skills section 
-3. on hover scale project box
-4. project info 
-5. education details and illustration 
-6. 
