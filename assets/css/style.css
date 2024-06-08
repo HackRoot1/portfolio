@@ -715,6 +715,29 @@ hr {
     padding: 0 12%;
 }
 
+.more-projects-link {
+    margin-top: 20px;
+    width: 100%;
+    /* padding: 10px 20px; */
+    /* background-color: var(--box-color); */
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+.more-projects-link a{
+    /* margin-top: 20px; */
+    /* width: 100%; */
+    padding: 10px 20px;
+    background-color: var(--box-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    color: var(--color);
+    font-size: 20px;
+}
 
 #project-section .title {
     padding: 15px 20px;
@@ -771,6 +794,7 @@ hr {
     margin-top: 15px;
     display: flex;
     justify-content: end;
+    gap: 20px;
 }
 
 .box .box-item .box-info .links a{
@@ -1158,7 +1182,7 @@ hr {
 #contact-section .contact-details > .contact-info .social-links span:hover{
     border: 2px solid var(--link-tab-hover);
 }
-#contact-section .contact-details > .contact-info .social-links span a:hover{
+#contact-section .contact-details > .contact-info .social-links span:hover a{
     color: var(--h);
 }
 
