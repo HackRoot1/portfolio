@@ -388,14 +388,14 @@
     padding: 7px 15px;
     font-size: 20px;
     border-radius: 50px;
-    background-color: var(--box-color);
+    background-color: var(--z);
     text-decoration: none;
     color: var(--color);
 }
 
 .about-information .links a:hover {
-    background-color: var(--tab1-color);
-    color: var(--color);
+    background-color: var(--box-color);
+    color: var(--color-hover);
     transition: all 1s;
 }
 
