@@ -10,7 +10,10 @@ if(getMode && getMode === "dark"){
     $(".switch-toggle-btn").toggleClass("move-switch");
 } 
 
-modeToggle.addEventListener("click", () => {
+
+// modeToggle.addEventListener("click", () => {
+    
+$(".toggle-icon").on("click", function () {
     body.classList.toggle("dark");
     if(body.classList.contains("dark")){
         localStorage.setItem("mode", "dark");
