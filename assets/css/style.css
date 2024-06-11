@@ -20,6 +20,7 @@
     body.dark {
         --background-color: rgb(255 255 255);
         --color: rgb(36 38 43);
+        --color-opposite: rgb(223 223 215);
         --color-hover: rgb(52 81 178);
         --pure-background: #fff;
 
@@ -39,6 +40,8 @@
     body {
         --background-color: rgb(27 27 31);
         --color: rgb(223 223 215);
+        --color-opposite: rgb(36 38 43);
+        
         --color-hover: rgb(52 81 178);
         --pure-background: #000;
 
@@ -761,7 +764,11 @@ hr {
 }
 
 
+.box .box-item {
+    height: 100%;
+}
 .box .box-item .box-info {
+    height: 100%;
     background-color: var(--box-color);
     padding: 25px;
     color: var(--color);
@@ -771,6 +778,9 @@ hr {
     animation: fade-in linear forwards;
     animation-timeline: view();
     animation-range: 100px 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 @keyframes fade-in {
     to { scale: 1; opacity: 1;}
@@ -799,7 +809,7 @@ hr {
 
 .box .box-item .box-info .links a{
     /* border: 1px solid red; */
-    background-color: var(--tab2-color);
+    background-color: var(--border-color);
     text-decoration: none;
     color: var(--color);
     display: flex;
