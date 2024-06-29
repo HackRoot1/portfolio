@@ -763,6 +763,9 @@ hr {
     grid-gap: 1rem;
 }
 
+.project-list .box {
+    max-width: 350px;
+}
 
 .box .box-item {
     height: 100%;
