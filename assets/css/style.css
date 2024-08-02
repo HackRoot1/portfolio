@@ -150,6 +150,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
     }
     
     nav .switch-toggle-btn {
@@ -790,6 +791,13 @@ hr {
 } 
 
 .box .background-img {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.box .background-img .img{
     background: var(--img);
     background-position: center;
     background-repeat: no-repeat;
@@ -797,9 +805,10 @@ hr {
     width: 100%;
     height: 150px;
     transition: all 1s;
+    object-fit: cover;
 }
 
-.box:hover .background-img{
+.box:hover .background-img .img{
     scale: 1.2;
 }
 
@@ -843,7 +852,7 @@ hr {
         padding: 0 6%;
     }
 
-    .box .background-img{
+    .box:hover .background-img .img{
         scale: 1.2;
     }
 
