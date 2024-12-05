@@ -20,7 +20,7 @@ body.dark {
     --color-opposite: rgb(223 223 215);
     --color-hover: rgb(52 81 178);
     --pure-background: #fff;
-
+    --pure-hover-background: #000;
     --box-color: rgb(235 235 239);
     --tab1-color: rgb(246 246 247);
     --tab2-color: rgb(100 108 255);
@@ -40,7 +40,7 @@ body {
 
     --color-hover: rgb(52 81 178);
     --pure-background: #000;
-
+    --pure-hover-background: #fff;
     --box-color: rgb(32 33 39);
     --tab1-color: rgb(50 54 63);
     --tab2-color: rgb(100 108 255);
@@ -705,6 +705,96 @@ hr {
     grid-gap: 1rem;
 }
 
+#certificate-section {
+    width: 100vw;
+    min-height: 300px;
+    padding: 0 12%;
+
+    .title {
+        padding: 15px 20px;
+        font-size: 25px;
+        background-color: var(--box-color);
+        color: var(--color);
+        border: var(--border-color);
+        margin: 10px 0px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .certificate-list {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(min(15.25rem, 100%), 1fr)
+        );
+        grid-gap: 1rem;
+
+        .row {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background-color: var(--box-color);
+            color: var(--pure-hover-background);
+            height: 100%;
+            padding: 25px;
+            scale: 0.8;
+            opacity: 0;
+            animation: fade-in linear forwards;
+            animation-timeline: view();
+            animation-range: 100px 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .row img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .layer {
+            width: 100%;
+            height: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), var(--color-hover));
+            position: absolute;
+            border-radius: 8px;
+            left: 0;
+            bottom: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 40px;
+            transition: height 0.5s;
+        }
+
+        .layer h5 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .layer p {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        .row:hover .layer {
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            height: 100%;
+        }
+    }
+}
+
 .project-list .box {
     max-width: 350px;
 }
@@ -727,6 +817,7 @@ hr {
     flex-direction: column;
     justify-content: space-between;
 }
+
 @keyframes fade-in {
     to {
         scale: 1;
@@ -784,15 +875,29 @@ hr {
     #project-section {
         padding: 0 6%;
     }
+    #certificate-section {
+        padding: 0 6%;
+    }
+
+    .project-list .box {
+        max-width: 100%;
+    }
 }
 
 @media screen and (max-width: 424.98px) {
     #project-section {
         padding: 0 6%;
     }
+    #certificate-section {
+        padding: 0 6%;
+    }
 
     .box:hover .background-img .img {
         scale: 1.2;
+    }
+
+    .project-list .box {
+        max-width: 100%;
     }
 
     #project-section .box .box-item .box-info .title {
