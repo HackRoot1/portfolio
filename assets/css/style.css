@@ -759,6 +759,25 @@ hr {
             transition: transform 0.5s;
         }
 
+        .row a {
+            padding: 5px 10px;
+            background-color: var(--box-color);
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--pure-hover-background);
+        }
+        .row a:hover {
+            scale: 1.15;
+            transition: all 0.5s;
+        }
+
+        .row div {
+            font-size: 18px;
+        }
+
+        .row div span {
+            font-weight: 600;
+        }
         .layer {
             width: 100%;
             height: 0;
@@ -772,6 +791,7 @@ hr {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 10px;
             text-align: center;
             padding: 0 40px;
             transition: height 0.5s;
