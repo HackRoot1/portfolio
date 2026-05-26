@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Saurabh Damale</title>
+    <meta name="description" content="The page you're looking for couldn't be found. Let's get you back on track.">
+    <meta name="robots" content="noindex, follow">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0f0f14;
+            --bg2: #16161e;
+            --bg3: #1e1e2a;
+            --surface: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --border2: rgba(255, 255, 255, 0.13);
+            --text: #e8e8f0;
+            --text2: #a0a0b8;
+            --text3: #606078;
+            --purple: #9b7fff;
+            --purple2: #7c5fff;
+            --purple-dim: rgba(155, 127, 255, 0.15);
+            --cyan: #4af0d8;
+            --cyan-dim: rgba(74, 240, 216, 0.12);
+            --r: 8px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg3);
+            border-radius: 3px;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            height: 64px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(15, 15, 20, 0.82);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            gap: 2rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-gem {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--purple), var(--purple2));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 7px 18px;
+            border-radius: var(--r);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .nav-btn-primary {
+            background: var(--purple);
+            color: #fff;
+        }
+
+        .nav-btn-primary:hover {
+            background: var(--purple2);
+            transform: translateY(-1px);
+        }
+
+        /* ── ERROR CONTAINER ── */
+        .error-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .error-bg::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse at center, rgba(124, 95, 255, 0.15) 0%, rgba(74, 240, 216, 0.05) 45%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .error-grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: clamp(5rem, 15vw, 8rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .error-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .error-message {
+            font-size: 1.05rem;
+            color: var(--text2);
+            margin-bottom: 2.5rem;
+            line-height: 1.75;
+            max-width: 500px;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 11px 26px;
+            border-radius: var(--r);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(155, 127, 255, 0.35);
+        }
+
+        .btn-primary:hover {
+            background: var(--purple2);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px rgba(155, 127, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .error-ornament {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text3);
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .error-ornament div {
+            margin-bottom: 8px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--purple);
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-inner {
+                padding: 0 1rem;
+                gap: 1rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <div class="logo-gem">⚡</div>
+                <span>Saurabh Damale</span>
+            </a>
+            <div class="nav-right">
+                <a href="/" class="nav-btn nav-btn-primary">Back Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Error Container -->
+    <div class="error-container">
+        <div class="error-bg"></div>
+        <div class="error-grid"></div>
+
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                Sorry, the page you're looking for doesn't exist. It might have been moved or deleted.
+            </p>
+
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">
+                    ← Go to Home
+                </a>
+                <a href="mailto:saurabh.damale.developer@gmail.com" class="btn btn-secondary">
+                    📧 Contact Me
+                </a>
+            </div>
+
+            <div class="error-ornament">
+                <div><span class="dot"></span>error_code: 404_not_found</div>
+                <div><span class="dot"></span>status: page_unavailable</div>
+                <div><span class="dot"></span>timestamp: {{ date }}</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update timestamp
+        document.addEventListener('DOMContentLoaded', () => {
+            const timestamp = new Date().toLocaleString('en-IN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'Asia/Kolkata'
+            });
+            document.querySelector('.error-ornament').lastElementChild.innerHTML = 
+                `<span class="dot"></span>timestamp: ${timestamp}`;
+        });
+
+        // Redirect home after 10 seconds if user doesn't click
+        let redirectTimeout;
+        const startRedirectCountdown = () => {
+            redirectTimeout = setTimeout(() => {
+                window.location.href = '/';
+            }, 10000);
+        };
+
+        document.addEventListener('click', () => {
+            clearTimeout(redirectTimeout);
+        });
+
+        // Uncomment below to enable auto-redirect
+        // startRedirectCountdown();
+    </script>
+</body>
+
+</html>
