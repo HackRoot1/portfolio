@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://saurabh-damale-portfolio.vercel.app/sitemap.xml
+Sitemap: https://saurabh-damale-developer.site/sitemap.xml
