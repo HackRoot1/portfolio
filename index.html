@@ -76,6 +76,10 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
       rel="stylesheet"
     />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="application/ld+json">
@@ -853,6 +857,44 @@
         width: 0;
         transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
+
+      /* Contact form animations */
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-8px);
+        }
+        50% {
+          transform: translateX(8px);
+        }
+        75% {
+          transform: translateX(-8px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
       .tech-cloud {
         display: flex;
         flex-wrap: wrap;
@@ -2405,17 +2447,47 @@
               </div>
               <!-- <div class="avail"><span class="avail-dot"></span><span class="avail-txt">Available now · Response within 48 hours</span></div> -->
             </div>
-            <div class="cform gsap-slide-right">
+            <form
+              class="cform gsap-slide-right"
+              id="form-info"
+              onsubmit="sendForm(event)"
+            >
               <div class="form-row-2">
                 <div class="fg">
-                  <label>Your Name</label
-                  ><input id="fn" placeholder="John Smith" />
+                  <label>First Name</label
+                  ><input
+                    id="fn"
+                    name="fname"
+                    type="text"
+                    placeholder="John"
+                    autocomplete="given-name"
+                    required
+                  />
                 </div>
                 <div class="fg">
-                  <label>Email Address</label
-                  ><input id="fe" type="email" placeholder="john@company.com" />
+                  <label>Last Name</label
+                  ><input
+                    id="ln"
+                    name="lname"
+                    type="text"
+                    placeholder="Doe"
+                    autocomplete="family-name"
+                    required
+                  />
                 </div>
               </div>
+              <div class="fg">
+                <label>Email Address</label
+                ><input
+                  id="fe"
+                  name="email"
+                  type="email"
+                  placeholder="john@company.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <!--
               <div class="fg">
                 <label>Project Type</label>
                 <select id="ft">
@@ -2442,18 +2514,23 @@
                   <option>Let's discuss</option>
                 </select>
               </div>
+              -->
               <div class="fg">
                 <label>Project Details</label
                 ><textarea
                   id="fm"
+                  name="feedback"
                   placeholder="Describe what you need, your timeline, and any technical requirements..."
+                  required
                 ></textarea>
               </div>
-              <button class="fsub" onclick="sendForm()">Send Message →</button>
+              <button type="submit" class="fsub" id="form-info-btn">
+                Send Message →
+              </button>
               <div class="fok" id="fok">
                 ✓ Message sent! I'll get back to you within 48 hours.
               </div>
-            </div>
+            </form>
           </div>
         </div>
         <footer>
@@ -2505,637 +2582,667 @@
     </div>
 
     <script>
-      // ── GSAP SETUP ──
-      gsap.registerPlugin(ScrollTrigger);
+        // ── GSAP SETUP ──
+        if (window.gsap && window.ScrollTrigger) {
+          gsap.registerPlugin(ScrollTrigger);
+        }
 
-      // ── PARTICLE CANVAS ──
-      function initParticles() {
-        const canvas = document.getElementById("particle-canvas");
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        let W,
-          H,
-          particles = [];
-        function resize() {
-          W = canvas.width = canvas.offsetWidth;
-          H = canvas.height = canvas.offsetHeight;
-        }
-        resize();
-        window.addEventListener("resize", resize);
-        for (let i = 0; i < 60; i++) {
-          particles.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.5 + 0.5,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            a: Math.random() * 0.5 + 0.1,
-            color: Math.random() > 0.5 ? "155,127,255" : "74,240,216",
-          });
-        }
-        function draw() {
-          ctx.clearRect(0, 0, W, H);
-          particles.forEach((p) => {
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < 0) p.x = W;
-            if (p.x > W) p.x = 0;
-            if (p.y < 0) p.y = H;
-            if (p.y > H) p.y = 0;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${p.color},${p.a})`;
-            ctx.fill();
-          });
-          // draw connections
-          for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-              const dx = particles[i].x - particles[j].x,
-                dy = particles[i].y - particles[j].y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              if (dist < 100) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(155,127,255,${0.06 * (1 - dist / 100)})`;
-                ctx.lineWidth = 0.5;
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
+        // ── PARTICLE CANVAS ──
+        function initParticles() {
+          const canvas = document.getElementById("particle-canvas");
+          if (!canvas) return;
+          const ctx = canvas.getContext("2d");
+          let W,
+            H,
+            particles = [];
+          function resize() {
+            W = canvas.width = canvas.offsetWidth;
+            H = canvas.height = canvas.offsetHeight;
+          }
+          resize();
+          window.addEventListener("resize", resize);
+          for (let i = 0; i < 60; i++) {
+            particles.push({
+              x: Math.random() * W,
+              y: Math.random() * H,
+              r: Math.random() * 1.5 + 0.5,
+              vx: (Math.random() - 0.5) * 0.3,
+              vy: (Math.random() - 0.5) * 0.3,
+              a: Math.random() * 0.5 + 0.1,
+              color: Math.random() > 0.5 ? "155,127,255" : "74,240,216",
+            });
+          }
+          function draw() {
+            ctx.clearRect(0, 0, W, H);
+            particles.forEach((p) => {
+              p.x += p.vx;
+              p.y += p.vy;
+              if (p.x < 0) p.x = W;
+              if (p.x > W) p.x = 0;
+              if (p.y < 0) p.y = H;
+              if (p.y > H) p.y = 0;
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(${p.color},${p.a})`;
+              ctx.fill();
+            });
+            // draw connections
+            for (let i = 0; i < particles.length; i++) {
+              for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x,
+                  dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                  ctx.beginPath();
+                  ctx.strokeStyle = `rgba(155,127,255,${0.06 * (1 - dist / 100)})`;
+                  ctx.lineWidth = 0.5;
+                  ctx.moveTo(particles[i].x, particles[i].y);
+                  ctx.lineTo(particles[j].x, particles[j].y);
+                  ctx.stroke();
+                }
               }
             }
+            requestAnimationFrame(draw);
           }
-          requestAnimationFrame(draw);
+          draw();
         }
-        draw();
-      }
 
-      // ── HERO ANIMATIONS ──
-      function animateHero() {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl.to(".hero-badge", { opacity: 1, y: 0, duration: 0.8, delay: 0.2 })
-          .to(".hero h1", { opacity: 1, y: 0, duration: 0.9 }, "-=.5")
-          .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8 }, "-=.6")
-          .to(".hero-actions", { opacity: 1, y: 0, duration: 0.7 }, "-=.5")
-          .to(
-            ".hero-terminal",
-            { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" },
-            "-=.4",
-          );
+        // ── HERO ANIMATIONS ──
+        function animateHero() {
+          if (!window.gsap) return;
 
-        // stagger stats
-        gsap.to(".hero-stats .stat", {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          delay: 1.2,
-          ease: "power2.out",
-        });
+          const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+          tl.to(".hero-badge", { opacity: 1, y: 0, duration: 0.8, delay: 0.2 })
+            .to(".hero h1", { opacity: 1, y: 0, duration: 0.9 }, "-=.5")
+            .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8 }, "-=.6")
+            .to(".hero-actions", { opacity: 1, y: 0, duration: 0.7 }, "-=.5")
+            .to(
+              ".hero-terminal",
+              { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" },
+              "-=.4",
+            );
 
-        // counter animation for stats
-        setTimeout(() => {
-          document.querySelectorAll("[data-count]").forEach((el) => {
-            const target = +el.dataset.count;
-            const suffix = el.dataset.suffix || "";
-            gsap.to(
-              { val: 0 },
-              {
-                val: target,
-                duration: 2,
-                ease: "power2.out",
-                onUpdate: function () {
-                  el.textContent = Math.round(this.targets()[0].val) + suffix;
+          gsap.to(".hero-stats .stat", {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            delay: 1.2,
+            ease: "power2.out",
+          });
+
+          // Counter animation for stats
+          setTimeout(() => {
+            document.querySelectorAll("[data-count]").forEach((el) => {
+              const target = +el.dataset.count;
+              const suffix = el.dataset.suffix || "";
+              gsap.to(
+                { val: 0 },
+                {
+                  val: target,
+                  duration: 2,
+                  ease: "power2.out",
+                  onUpdate: function () {
+                    el.textContent = Math.round(this.targets()[0].val) + suffix;
+                  },
                 },
+              );
+            });
+          }, 1400);
+
+          // Terminal typewriter
+          setTimeout(() => {
+            ["t-line-1", "t-line-2", "t-line-3", "t-line-4", "t-line-5"].forEach(
+              (id, i) => {
+                setTimeout(() => {
+                  const el = document.getElementById(id);
+                  if (el)
+                    gsap.to(el, {
+                      opacity: 1,
+                      x: 0,
+                      duration: 0.4,
+                      ease: "power2.out",
+                    });
+                }, i * 280);
               },
             );
-          });
-        }, 1400);
+          }, 1800);
+        }
 
-        // terminal typewriter
-        setTimeout(() => {
-          ["t-line-1", "t-line-2", "t-line-3", "t-line-4", "t-line-5"].forEach(
-            (id, i) => {
-              setTimeout(() => {
-                const el = document.getElementById(id);
-                if (el)
-                  gsap.to(el, {
-                    opacity: 1,
-                    x: 0,
-                    duration: 0.4,
-                    ease: "power2.out",
-                  });
-              }, i * 280);
-            },
-          );
-        }, 1800);
-      }
+        // ── ABOUT PAGE ANIMATIONS ──
+        function animateAbout() {
+          if (!window.gsap) return;
 
-      // ── ABOUT PAGE ANIMATIONS ──
-      function animateAbout() {
-        gsap.utils.toArray("#about .gsap-fade-up").forEach((el) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          });
-        });
-        gsap.to("#about .gsap-slide-left", {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#about .about-cols",
-            start: "top 80%",
-            once: true,
-          },
-        });
-        gsap.to("#about .gsap-slide-right", {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          delay: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#about .about-cols",
-            start: "top 80%",
-            once: true,
-          },
-        });
-        // skill bars
-        gsap.utils.toArray("#about .sb-fill").forEach((bar) => {
-          const w = bar.dataset.width || "0";
-          gsap.to(bar, {
-            width: w + "%",
-            duration: 1.2,
-            ease: "power2.out",
-            scrollTrigger: { trigger: bar, start: "top 92%", once: true },
-          });
-        });
-      }
-
-      // ── PROJECTS PAGE ANIMATIONS ──
-      function animateProjects() {
-        gsap.utils.toArray("#projects .gsap-fade-up").forEach((el) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          });
-        });
-      }
-
-      // ── SERVICES PAGE ANIMATIONS ──
-      function animateServices() {
-        gsap.utils.toArray("#services .gsap-fade-up").forEach((el, i) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            delay: i * 0.05,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          });
-        });
-        gsap.utils.toArray("#services .gsap-scale-in").forEach((el, i) => {
-          gsap.to(el, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.7,
-            delay: i * 0.1,
-            ease: "back.out(1.2)",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          });
-        });
-      }
-
-      // ── CONTACT PAGE ANIMATIONS ──
-      function animateContact() {
-        gsap.utils.toArray("#contact .gsap-fade-up").forEach((el) => {
-          gsap.to(el, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          });
-        });
-        gsap.to("#contact .gsap-slide-left", {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#contact .contact-grid",
-            start: "top 80%",
-            once: true,
-          },
-        });
-        gsap.to("#contact .gsap-slide-right", {
-          opacity: 1,
-          x: 0,
-          duration: 0.9,
-          delay: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#contact .contact-grid",
-            start: "top 80%",
-            once: true,
-          },
-        });
-      }
-
-      // ── MAGNETIC BUTTONS ──
-      function initMagnetic() {
-        document.querySelectorAll(".btn-magnetic").forEach((btn) => {
-          btn.addEventListener("mousemove", (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            gsap.to(btn, {
-              x: x * 0.15,
-              y: y * 0.15,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          });
-          btn.addEventListener("mouseleave", () => {
-            gsap.to(btn, {
-              x: 0,
+          gsap.utils.toArray("#about .gsap-fade-up").forEach((el) => {
+            gsap.to(el, {
+              opacity: 1,
               y: 0,
-              duration: 0.5,
-              ease: "elastic.out(1,.3)",
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: window.ScrollTrigger
+                ? { trigger: el, start: "top 88%", once: true }
+                : null,
             });
           });
-        });
-      }
-
-      // ── NAVBAR SCROLL ──
-      function initNavScroll() {
-        window.addEventListener("scroll", () => {
-          const nav = document.getElementById("main-nav");
-          if (window.scrollY > 20) {
-            nav.style.borderBottomColor = "rgba(255,255,255,0.12)";
-          } else {
-            nav.style.borderBottomColor = "rgba(255,255,255,0.08)";
-          }
-        });
-      }
-
-      // ── PROJ CARD HOVER ──
-      function initCardHover() {
-        document.querySelectorAll(".proj-card").forEach((card) => {
-          card.addEventListener("mousemove", (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
-            const y = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
-            gsap.to(card, {
-              rotateX: -y,
-              rotateY: x,
-              duration: 0.4,
-              ease: "power2.out",
-              transformPerspective: 800,
-            });
-          });
-          card.addEventListener("mouseleave", () => {
-            gsap.to(card, {
-              rotateX: 0,
-              rotateY: 0,
-              duration: 0.6,
-              ease: "elastic.out(1,.4)",
-            });
-          });
-        });
-      }
-
-      // ── PROJECTS DATA ──
-      const projects = [
-        // Production Projects
-        {
-          id: 1,
-          cat: "prod ecom",
-          type: "Production · E-Commerce",
-          name: "Crackteck",
-          tag: "Full-stack e-commerce platform — currently in production",
-          desc: "Complete backend system with RESTful APIs, PhonePe payment gateway, SMS notifications, and 40% API response time improvement.",
-          thumb: "🛒",
-          thumbGrad: "linear-gradient(135deg,#1a2a0a,#0f1a05)",
-          tags: ["Laravel", "MySQL", "PhonePe", "SMS Gateway", "RESTful APIs"],
-          github: null,
-          demo: null,
-          prob: "The client needed a complete e-commerce backend capable of serving both web and mobile clients with real-time order notifications and reliable payment processing for the Indian market.",
-          built:
-            "Architected and built the complete backend system with versioned RESTful APIs. Integrated PhonePe payment gateway with end-to-end transaction reconciliation. Implemented SMS gateway for real-time order status notifications. Optimised database queries to achieve a 40% improvement in API response time.",
-          feats: [
-            "Complete RESTful API serving frontend and mobile clients",
-            "PhonePe payment gateway with full reconciliation",
-            "Real-time order SMS notifications via SMS gateway",
-            "40% API response time improvement via query optimisation",
-            "Handling hundreds of daily transactions in production",
-            "Database indexing & query optimisation",
-          ],
-          stack: [
-            "Laravel",
-            "MySQL",
-            "PhonePe API",
-            "SMS Gateway",
-            "RESTful APIs",
-            "PHP 8.x",
-          ],
-        },
-        {
-          id: 2,
-          cat: "prod erp",
-          type: "Production · ERP / POS",
-          name: "Headquarters",
-          tag: "Multi-warehouse ERP & POS system — currently in production",
-          desc: "Multi-warehouse inventory management, purchase order workflows with multi-level approvals, and 85% reduction in manual stock reconciliation.",
-          thumb: "🏭",
-          thumbGrad: "linear-gradient(135deg,#2a1a0a,#1a0f05)",
-          tags: ["Laravel", "MySQL", "Advanced Indexing", "ERP", "POS"],
-          github: null,
-          demo: null,
-          prob: "The business operated across multiple warehouse locations and relied on manual stock reconciliation, causing errors and delays. They needed a unified ERP and POS system with real-time inventory visibility.",
-          built:
-            "Designed and implemented a multi-warehouse inventory management system covering all locations. Built purchase order workflows with multi-level approval chains. Created real-time stock synchronisation, reducing manual reconciliation by 85%. Optimised database indices for high-frequency inventory queries.",
-          feats: [
-            "Multi-warehouse inventory management across locations",
-            "Purchase order workflows with multi-level approval chains",
-            "Real-time stock synchronisation between warehouses",
-            "85% reduction in manual stock reconciliation",
-            "Advanced database indexing for high-frequency queries",
-            "POS system with stock tracking",
-          ],
-          stack: ["Laravel", "MySQL", "Advanced Database Indexing", "PHP 8.x"],
-        },
-        {
-          id: 3,
-          cat: "prod ecom",
-          type: "Production · E-Commerce",
-          name: "Yashtools",
-          tag: "E-commerce product catalogue platform — currently in production",
-          desc: "Product catalogue module with advanced filtering, search capabilities, and complete order management system.",
-          thumb: "🔧",
-          thumbGrad: "linear-gradient(135deg,#0a2a2a,#051515)",
-          tags: ["Laravel", "MySQL", "Product Catalogue", "Order Management"],
-          github: null,
-          demo: null,
-          prob: "The client needed a dedicated e-commerce platform for industrial products with sophisticated filtering and complete order tracking from placement to delivery.",
-          built:
-            "Developed a full product catalogue module with advanced filtering and search capabilities. Built a complete order management system with full status tracking and history, allowing customers and admins to monitor every stage of the order lifecycle.",
-          feats: [
-            "Advanced product catalogue with filtering & search",
-            "Complete order management system",
-            "Full order status tracking & history",
-            "Admin and customer-facing interfaces",
-            "Production-grade deployment",
-          ],
-          stack: ["Laravel", "MySQL", "PHP 8.x"],
-        },
-        {
-          id: 4,
-          cat: "prod fintech",
-          type: "Production · Security API",
-          name: "Vault System",
-          tag: "Encrypted Laravel 12 vault API for sensitive data and files",
-          desc: "Secure vault API with AES-256-GCM encryption, Laravel Sanctum authentication, multi-device sync, encrypted file storage, and optional Google Authenticator 2FA.",
-          thumb: "🔐",
-          thumbGrad: "linear-gradient(135deg,#22103a,#071f26)",
-          tags: ["Laravel 12", "Sanctum", "AES-256-GCM", "PBKDF2", "2FA"],
-          github: null,
-          demo: null,
-          prob: "Sensitive credentials, notes, and files needed to be stored securely while remaining accessible across devices. The system required strong encryption, authenticated API access, safe file handling, and reliable sync without exposing encryption keys in the database.",
-          built:
-            "Built a Laravel 12 API-first vault system using Sanctum bearer-token authentication, AES-256-GCM encryption for sensitive vault items, PBKDF2 key derivation with 100,000 iterations, encrypted private file storage, temporary download URLs, Google Authenticator 2FA, device tracking, soft deletes, and rate-limited endpoints.",
-          feats: [
-            "Multiple vaults per authenticated user",
-            "Encrypted login and note items using AES-256-GCM",
-            "PBKDF2 password-based key derivation with per-user salts",
-            "Multi-device delta sync with soft-delete support",
-            "Encrypted file upload, storage, metadata, and temporary download URLs",
-            "Optional Google Authenticator two-factor authentication",
-            "Device history tracking with IP and user agent details",
-            "Endpoint rate limiting for login, registration, and API traffic",
-          ],
-          stack: [
-            "Laravel 12",
-            "Laravel Sanctum",
-            "AES-256-GCM",
-            "PBKDF2",
-            "Google Authenticator 2FA",
-            "Encrypted File Storage",
-            "REST API",
-          ],
-        },
-        // Personal Projects
-        {
-          id: 5,
-          cat: "personal",
-          type: "Personal Project",
-          name: "CraveBox",
-          tag: "Restaurant management system with Razorpay payments",
-          desc: "Full-featured Laravel application enabling restaurant owners to manage menus, reservations, and real-time orders with Razorpay integration.",
-          thumb: "🍽️",
-          thumbGrad: "linear-gradient(135deg,#2a0a0a,#1a0505)",
-          tags: ["Laravel", "MySQL", "Bootstrap", "Razorpay", "Blade"],
-          github: "https://github.com/HackRoot1/CraveBox",
-          demo: null,
-          prob: "Restaurant owners needed a unified platform to manage their menus, handle table reservations, and process online orders with secure payments — without relying on expensive third-party services.",
-          built:
-            "A full-featured Laravel application with menu management, reservation handling, and real-time order processing. Integrated Razorpay for secure payment processing with automated order confirmation. Built a responsive admin dashboard with role-based access control and user authentication.",
-          feats: [
-            "Menu management with categories & pricing",
-            "Table reservation system",
-            "Real-time order management",
-            "Razorpay integration with automated confirmation",
-            "Role-based access control (admin, staff, customer)",
-            "Responsive admin dashboard",
-            "User authentication & session management",
-          ],
-          stack: [
-            "Laravel",
-            "MySQL",
-            "Bootstrap",
-            "Razorpay API",
-            "Blade Templating",
-            "PHP 8.x",
-          ],
-        },
-        {
-          id: 6,
-          cat: "personal",
-          type: "Personal Project",
-          name: "OrbitTasks",
-          tag: "AJAX-powered task management with real-time CRUD",
-          desc: "Full-stack task management platform with AJAX-powered real-time operations, secure authentication, and mobile-optimised responsive design.",
-          thumb: "✅",
-          thumbGrad: "linear-gradient(135deg,#0a0a2a,#05051a)",
-          tags: ["JavaScript", "jQuery", "AJAX", "PHP", "MySQL"],
-          github: "https://github.com/HackRoot1/OrbitalTasks",
-          demo: null,
-          prob: "Needed a fast, no-reload task management experience to practice full-stack AJAX development without a heavy frontend framework.",
-          built:
-            "Built a full-stack task management platform with AJAX-powered real-time CRUD operations that require no page reloads. Implemented secure user authentication with session management. Optimised the design for both mobile and desktop.",
-          feats: [
-            "AJAX-powered real-time CRUD (no page reloads)",
-            "Secure user authentication & session management",
-            "Task categorisation & status tracking",
-            "Mobile and desktop responsive design",
-            "Clean UI with intuitive UX",
-          ],
-          stack: [
-            "HTML5",
-            "CSS3",
-            "JavaScript",
-            "jQuery",
-            "AJAX",
-            "PHP",
-            "MySQL",
-          ],
-        },
-      ];
-
-      let cur = "all";
-
-      function renderProjects() {
-        const list =
-          cur === "all"
-            ? projects
-            : projects.filter((p) => p.cat.includes(cur));
-        document.getElementById("proj-grid").innerHTML = list
-          .map(
-            (p) => `
-    <div class="proj-card" onclick="openM(${p.id})">
-      <div class="proj-thumb" style="background:${p.thumbGrad}">
-        <div class="proj-thumb-emoji">${p.thumb}</div>
-        <div class="proj-badge">${p.type}</div>
-      </div>
-      <div class="proj-body">
-        <div class="proj-cat">${p.cat}</div>
-        <div class="proj-name">${p.name}</div>
-        <div class="proj-desc">${p.desc}</div>
-        <div class="proj-tags">${p.tags
-          .slice(0, 4)
-          .map((t) => `<span class="ptag">${t}</span>`)
-          .join("")}</div>
-        <div class="proj-links">
-          ${p.demo ? `<button class="plink plink-demo" onclick="event.stopPropagation();window.open('${p.demo}','_blank')">Live Demo</button>` : `<button class="plink plink-demo" style="opacity:.5;cursor:not-allowed" onclick="event.stopPropagation()">Production App</button>`}
-          ${p.github ? `<button class="plink plink-code" onclick="event.stopPropagation();window.open('${p.github}','_blank')">GitHub</button>` : `<button class="plink plink-code" style="opacity:.5;cursor:not-allowed" onclick="event.stopPropagation()">Private Repo</button>`}
-        </div>
-      </div>
-    </div>`,
-          )
-          .join("");
-        // animate cards in
-        gsap.fromTo(
-          ".proj-card",
-          { opacity: 0, y: 30, scale: 0.96 },
-          {
+          gsap.to("#about .gsap-slide-left", {
             opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.5,
-            stagger: 0.08,
+            x: 0,
+            duration: 0.9,
             ease: "power3.out",
-          },
-        );
-        setTimeout(initCardHover, 100);
-      }
-
-      function filterP(cat, btn) {
-        cur = cat;
-        document
-          .querySelectorAll(".f-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        gsap.to(".proj-card", {
-          opacity: 0,
-          y: -20,
-          duration: 0.2,
-          ease: "power2.in",
-          onComplete: renderProjects,
-        });
-      }
-
-      function openM(id) {
-        const p = projects.find((x) => x.id === id);
-        document.getElementById("m-type").textContent = p.type;
-        document.getElementById("m-title").textContent = p.name;
-        document.getElementById("m-tag").textContent = p.tag;
-        document.getElementById("m-prob").textContent = p.prob;
-        document.getElementById("m-built").textContent = p.built;
-        document.getElementById("m-feats").innerHTML = p.feats
-          .map((f) => `<li>${f}</li>`)
-          .join("");
-        document.getElementById("m-stack").innerHTML = p.stack
-          .map((s) => `<span class="chip">${s}</span>`)
-          .join("");
-        // update footer buttons
-        const demoBtn = document.getElementById("m-demo-btn");
-        const codeBtn = document.getElementById("m-code-btn");
-        if (p.demo) {
-          demoBtn.onclick = () => window.open(p.demo, "_blank");
-          demoBtn.style.opacity = "1";
-        } else {
-          demoBtn.onclick = null;
-          demoBtn.style.opacity = ".4";
-          demoBtn.textContent = "No Demo";
+            scrollTrigger: window.ScrollTrigger
+              ? { trigger: "#about .about-cols", start: "top 80%", once: true }
+              : null,
+          });
+          gsap.to("#about .gsap-slide-right", {
+            opacity: 1,
+            x: 0,
+            duration: 0.9,
+            delay: 0.15,
+            ease: "power3.out",
+            scrollTrigger: window.ScrollTrigger
+              ? { trigger: "#about .about-cols", start: "top 80%", once: true }
+              : null,
+          });
+          gsap.utils.toArray("#about .sb-fill").forEach((bar) => {
+            const w = bar.dataset.width || "0";
+            gsap.to(bar, {
+              width: w + "%",
+              duration: 1.2,
+              ease: "power2.out",
+              scrollTrigger: window.ScrollTrigger
+                ? { trigger: bar, start: "top 92%", once: true }
+                : null,
+            });
+          });
         }
-        if (p.github) {
-          codeBtn.onclick = () => window.open(p.github, "_blank");
-          codeBtn.style.opacity = "1";
-        } else {
-          codeBtn.onclick = null;
-          codeBtn.style.opacity = ".4";
-          codeBtn.textContent = "Private Repo";
-        }
-        document.getElementById("modal-bg").classList.add("open");
-        document.body.style.overflow = "hidden";
-        // animate modal in
-        gsap.fromTo(
-          ".modal",
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
-        );
-      }
-      function closeM() {
-        gsap.to(".modal", {
-          y: 30,
-          opacity: 0,
-          duration: 0.25,
-          ease: "power2.in",
-          onComplete: () => {
-            document.getElementById("modal-bg").classList.remove("open");
-            document.body.style.overflow = "";
-          },
-        });
-      }
-      function closeMbg(e) {
-        if (e.target.id === "modal-bg") closeM();
-      }
 
-      function go(id) {
-        // fade out current section
-        const current = document.querySelector("section.active");
-        if (current) {
-          gsap.to(current, {
+        // ── PROJECTS PAGE ANIMATIONS ──
+        function animateProjects() {
+          if (!window.gsap) return;
+
+          gsap.utils.toArray("#projects .gsap-fade-up").forEach((el) => {
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: window.ScrollTrigger
+                ? { trigger: el, start: "top 90%", once: true }
+                : null,
+            });
+          });
+        }
+
+        // ── SERVICES PAGE ANIMATIONS ──
+        function animateServices() {
+          if (!window.gsap) return;
+
+          gsap.utils.toArray("#services .gsap-fade-up").forEach((el, i) => {
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              delay: i * 0.05,
+              ease: "power3.out",
+              scrollTrigger: window.ScrollTrigger
+                ? { trigger: el, start: "top 88%", once: true }
+                : null,
+            });
+          });
+          gsap.utils.toArray("#services .gsap-scale-in").forEach((el, i) => {
+            gsap.to(el, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              delay: i * 0.1,
+              ease: "back.out(1.2)",
+              scrollTrigger: window.ScrollTrigger
+                ? { trigger: el, start: "top 88%", once: true }
+                : null,
+            });
+          });
+        }
+
+        // ── CONTACT PAGE ANIMATIONS ──
+        function animateContact() {
+          if (!window.gsap) return;
+
+          gsap.utils.toArray("#contact .gsap-fade-up").forEach((el) => {
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: window.ScrollTrigger
+                ? { trigger: el, start: "top 88%", once: true }
+                : null,
+            });
+          });
+          gsap.to("#contact .gsap-slide-left", {
+            opacity: 1,
+            x: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: window.ScrollTrigger
+              ? { trigger: "#contact .contact-grid", start: "top 80%", once: true }
+              : null,
+          });
+          gsap.to("#contact .gsap-slide-right", {
+            opacity: 1,
+            x: 0,
+            duration: 0.9,
+            delay: 0.15,
+            ease: "power3.out",
+            scrollTrigger: window.ScrollTrigger
+              ? { trigger: "#contact .contact-grid", start: "top 80%", once: true }
+              : null,
+          });
+        }
+
+        // ── MAGNETIC BUTTONS ──
+        function initMagnetic() {
+          if (!window.gsap) return;
+
+          document.querySelectorAll(".btn-magnetic").forEach((btn) => {
+            btn.addEventListener("mousemove", (e) => {
+              const rect = btn.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              gsap.to(btn, {
+                x: x * 0.15,
+                y: y * 0.15,
+                duration: 0.3,
+                ease: "power2.out",
+              });
+            });
+            btn.addEventListener("mouseleave", () => {
+              gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: "elastic.out(1,.3)",
+              });
+            });
+          });
+        }
+
+        // ── NAVBAR SCROLL ──
+        function initNavScroll() {
+          window.addEventListener("scroll", () => {
+            const nav = document.getElementById("main-nav");
+            if (window.scrollY > 20) {
+              nav.style.borderBottomColor = "rgba(255,255,255,0.12)";
+            } else {
+              nav.style.borderBottomColor = "rgba(255,255,255,0.08)";
+            }
+          });
+        }
+
+        // ── PROJ CARD HOVER ──
+        function initCardHover() {
+          if (!window.gsap) return;
+
+          document.querySelectorAll(".proj-card").forEach((card) => {
+            card.addEventListener("mousemove", (e) => {
+              const rect = card.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+              const y = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
+              gsap.to(card, {
+                rotateX: -y,
+                rotateY: x,
+                duration: 0.4,
+                ease: "power2.out",
+                transformPerspective: 800,
+              });
+            });
+            card.addEventListener("mouseleave", () => {
+              gsap.to(card, {
+                rotateX: 0,
+                rotateY: 0,
+                duration: 0.6,
+                ease: "elastic.out(1,.4)",
+              });
+            });
+          });
+        }
+
+        // ── PROJECTS DATA ──
+        const projects = [
+          // Production Projects
+          {
+            id: 1,
+            cat: "prod ecom",
+            type: "Production · E-Commerce",
+            name: "Crackteck",
+            tag: "Full-stack e-commerce platform — currently in production",
+            desc: "Complete backend system with RESTful APIs, PhonePe payment gateway, SMS notifications, and 40% API response time improvement.",
+            thumb: "🛒",
+            thumbGrad: "linear-gradient(135deg,#1a2a0a,#0f1a05)",
+            tags: ["Laravel", "MySQL", "PhonePe", "SMS Gateway", "RESTful APIs"],
+            github: null,
+            demo: null,
+            prob: "The client needed a complete e-commerce backend capable of serving both web and mobile clients with real-time order notifications and reliable payment processing for the Indian market.",
+            built:
+              "Architected and built the complete backend system with versioned RESTful APIs. Integrated PhonePe payment gateway with end-to-end transaction reconciliation. Implemented SMS gateway for real-time order status notifications. Optimised database queries to achieve a 40% improvement in API response time.",
+            feats: [
+              "Complete RESTful API serving frontend and mobile clients",
+              "PhonePe payment gateway with full reconciliation",
+              "Real-time order SMS notifications via SMS gateway",
+              "40% API response time improvement via query optimisation",
+              "Handling hundreds of daily transactions in production",
+              "Database indexing & query optimisation",
+            ],
+            stack: [
+              "Laravel",
+              "MySQL",
+              "PhonePe API",
+              "SMS Gateway",
+              "RESTful APIs",
+              "PHP 8.x",
+            ],
+          },
+          {
+            id: 2,
+            cat: "prod erp",
+            type: "Production · ERP / POS",
+            name: "Headquarters",
+            tag: "Multi-warehouse ERP & POS system — currently in production",
+            desc: "Multi-warehouse inventory management, purchase order workflows with multi-level approvals, and 85% reduction in manual stock reconciliation.",
+            thumb: "🏭",
+            thumbGrad: "linear-gradient(135deg,#2a1a0a,#1a0f05)",
+            tags: ["Laravel", "MySQL", "Advanced Indexing", "ERP", "POS"],
+            github: null,
+            demo: null,
+            prob: "The business operated across multiple warehouse locations and relied on manual stock reconciliation, causing errors and delays. They needed a unified ERP and POS system with real-time inventory visibility.",
+            built:
+              "Designed and implemented a multi-warehouse inventory management system covering all locations. Built purchase order workflows with multi-level approval chains. Created real-time stock synchronisation, reducing manual reconciliation by 85%. Optimised database indices for high-frequency inventory queries.",
+            feats: [
+              "Multi-warehouse inventory management across locations",
+              "Purchase order workflows with multi-level approval chains",
+              "Real-time stock synchronisation between warehouses",
+              "85% reduction in manual stock reconciliation",
+              "Advanced database indexing for high-frequency queries",
+              "POS system with stock tracking",
+            ],
+            stack: ["Laravel", "MySQL", "Advanced Database Indexing", "PHP 8.x"],
+          },
+          {
+            id: 3,
+            cat: "prod ecom",
+            type: "Production · E-Commerce",
+            name: "Yashtools",
+            tag: "E-commerce product catalogue platform — currently in production",
+            desc: "Product catalogue module with advanced filtering, search capabilities, and complete order management system.",
+            thumb: "🔧",
+            thumbGrad: "linear-gradient(135deg,#0a2a2a,#051515)",
+            tags: ["Laravel", "MySQL", "Product Catalogue", "Order Management"],
+            github: null,
+            demo: null,
+            prob: "The client needed a dedicated e-commerce platform for industrial products with sophisticated filtering and complete order tracking from placement to delivery.",
+            built:
+              "Developed a full product catalogue module with advanced filtering and search capabilities. Built a complete order management system with full status tracking and history, allowing customers and admins to monitor every stage of the order lifecycle.",
+            feats: [
+              "Advanced product catalogue with filtering & search",
+              "Complete order management system",
+              "Full order status tracking & history",
+              "Admin and customer-facing interfaces",
+              "Production-grade deployment",
+            ],
+            stack: ["Laravel", "MySQL", "PHP 8.x"],
+          },
+          {
+            id: 4,
+            cat: "prod fintech",
+            type: "Production · Security API",
+            name: "Vault System",
+            tag: "Encrypted Laravel 12 vault API for sensitive data and files",
+            desc: "Secure vault API with AES-256-GCM encryption, Laravel Sanctum authentication, multi-device sync, encrypted file storage, and optional Google Authenticator 2FA.",
+            thumb: "🔐",
+            thumbGrad: "linear-gradient(135deg,#22103a,#071f26)",
+            tags: ["Laravel 12", "Sanctum", "AES-256-GCM", "PBKDF2", "2FA"],
+            github: null,
+            demo: null,
+            prob: "Sensitive credentials, notes, and files needed to be stored securely while remaining accessible across devices. The system required strong encryption, authenticated API access, safe file handling, and reliable sync without exposing encryption keys in the database.",
+            built:
+              "Built a Laravel 12 API-first vault system using Sanctum bearer-token authentication, AES-256-GCM encryption for sensitive vault items, PBKDF2 key derivation with 100,000 iterations, encrypted private file storage, temporary download URLs, Google Authenticator 2FA, device tracking, soft deletes, and rate-limited endpoints.",
+            feats: [
+              "Multiple vaults per authenticated user",
+              "Encrypted login and note items using AES-256-GCM",
+              "PBKDF2 password-based key derivation with per-user salts",
+              "Multi-device delta sync with soft-delete support",
+              "Encrypted file upload, storage, metadata, and temporary download URLs",
+              "Optional Google Authenticator two-factor authentication",
+              "Device history tracking with IP and user agent details",
+              "Endpoint rate limiting for login, registration, and API traffic",
+            ],
+            stack: [
+              "Laravel 12",
+              "Laravel Sanctum",
+              "AES-256-GCM",
+              "PBKDF2",
+              "Google Authenticator 2FA",
+              "Encrypted File Storage",
+              "REST API",
+            ],
+          },
+          // Personal Projects
+          {
+            id: 5,
+            cat: "personal",
+            type: "Personal Project",
+            name: "CraveBox",
+            tag: "Restaurant management system with Razorpay payments",
+            desc: "Full-featured Laravel application enabling restaurant owners to manage menus, reservations, and real-time orders with Razorpay integration.",
+            thumb: "🍽️",
+            thumbGrad: "linear-gradient(135deg,#2a0a0a,#1a0505)",
+            tags: ["Laravel", "MySQL", "Bootstrap", "Razorpay", "Blade"],
+            github: "https://github.com/HackRoot1/CraveBox",
+            demo: null,
+            prob: "Restaurant owners needed a unified platform to manage their menus, handle table reservations, and process online orders with secure payments — without relying on expensive third-party services.",
+            built:
+              "A full-featured Laravel application with menu management, reservation handling, and real-time order processing. Integrated Razorpay for secure payment processing with automated order confirmation. Built a responsive admin dashboard with role-based access control and user authentication.",
+            feats: [
+              "Menu management with categories & pricing",
+              "Table reservation system",
+              "Real-time order management",
+              "Razorpay integration with automated confirmation",
+              "Role-based access control (admin, staff, customer)",
+              "Responsive admin dashboard",
+              "User authentication & session management",
+            ],
+            stack: [
+              "Laravel",
+              "MySQL",
+              "Bootstrap",
+              "Razorpay API",
+              "Blade Templating",
+              "PHP 8.x",
+            ],
+          },
+          {
+            id: 6,
+            cat: "personal",
+            type: "Personal Project",
+            name: "OrbitTasks",
+            tag: "AJAX-powered task management with real-time CRUD",
+            desc: "Full-stack task management platform with AJAX-powered real-time operations, secure authentication, and mobile-optimised responsive design.",
+            thumb: "✅",
+            thumbGrad: "linear-gradient(135deg,#0a0a2a,#05051a)",
+            tags: ["JavaScript", "jQuery", "AJAX", "PHP", "MySQL"],
+            github: "https://github.com/HackRoot1/OrbitalTasks",
+            demo: null,
+            prob: "Needed a fast, no-reload task management experience to practice full-stack AJAX development without a heavy frontend framework.",
+            built:
+              "Built a full-stack task management platform with AJAX-powered real-time CRUD operations that require no page reloads. Implemented secure user authentication with session management. Optimised the design for both mobile and desktop.",
+            feats: [
+              "AJAX-powered real-time CRUD (no page reloads)",
+              "Secure user authentication & session management",
+              "Task categorisation & status tracking",
+              "Mobile and desktop responsive design",
+              "Clean UI with intuitive UX",
+            ],
+            stack: [
+              "HTML5",
+              "CSS3",
+              "JavaScript",
+              "jQuery",
+              "AJAX",
+              "PHP",
+              "MySQL",
+            ],
+          },
+        ];
+
+        let cur = "all";
+
+        function renderProjects() {
+          const list =
+            cur === "all"
+              ? projects
+              : projects.filter((p) => p.cat.includes(cur));
+          document.getElementById("proj-grid").innerHTML = list
+            .map(
+              (p) => `
+      <div class="proj-card" onclick="openM(${p.id})">
+        <div class="proj-thumb" style="background:${p.thumbGrad}">
+          <div class="proj-thumb-emoji">${p.thumb}</div>
+          <div class="proj-badge">${p.type}</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-cat">${p.cat}</div>
+          <div class="proj-name">${p.name}</div>
+          <div class="proj-desc">${p.desc}</div>
+          <div class="proj-tags">${p.tags
+            .slice(0, 4)
+            .map((t) => `<span class="ptag">${t}</span>`)
+            .join("")}</div>
+          <div class="proj-links">
+            ${p.demo ? `<button class="plink plink-demo" onclick="event.stopPropagation();window.open('${p.demo}','_blank')">Live Demo</button>` : `<button class="plink plink-demo" style="opacity:.5;cursor:not-allowed" onclick="event.stopPropagation()">Production App</button>`}
+            ${p.github ? `<button class="plink plink-code" onclick="event.stopPropagation();window.open('${p.github}','_blank')">GitHub</button>` : `<button class="plink plink-code" style="opacity:.5;cursor:not-allowed" onclick="event.stopPropagation()">Private Repo</button>`}
+          </div>
+        </div>
+      </div>`,
+            )
+            .join("");
+          if (window.gsap) {
+            gsap.fromTo(
+              ".proj-card",
+              { opacity: 0, y: 30, scale: 0.96 },
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.5,
+                stagger: 0.08,
+                ease: "power3.out",
+              },
+            );
+          }
+          setTimeout(initCardHover, 100);
+        }
+
+        function filterP(cat, btn) {
+          cur = cat;
+          document
+            .querySelectorAll(".f-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          if (!window.gsap) {
+            renderProjects();
+            return;
+          }
+
+          gsap.to(".proj-card", {
             opacity: 0,
+            y: -20,
             duration: 0.2,
             ease: "power2.in",
+            onComplete: renderProjects,
+          });
+        }
+
+        function openM(id) {
+          const p = projects.find((x) => x.id === id);
+          document.getElementById("m-type").textContent = p.type;
+          document.getElementById("m-title").textContent = p.name;
+          document.getElementById("m-tag").textContent = p.tag;
+          document.getElementById("m-prob").textContent = p.prob;
+          document.getElementById("m-built").textContent = p.built;
+          document.getElementById("m-feats").innerHTML = p.feats
+            .map((f) => `<li>${f}</li>`)
+            .join("");
+          document.getElementById("m-stack").innerHTML = p.stack
+            .map((s) => `<span class="chip">${s}</span>`)
+            .join("");
+          // update footer buttons
+          const demoBtn = document.getElementById("m-demo-btn");
+          const codeBtn = document.getElementById("m-code-btn");
+          if (p.demo) {
+            demoBtn.onclick = () => window.open(p.demo, "_blank");
+            demoBtn.style.opacity = "1";
+          } else {
+            demoBtn.onclick = null;
+            demoBtn.style.opacity = ".4";
+            demoBtn.textContent = "No Demo";
+          }
+          if (p.github) {
+            codeBtn.onclick = () => window.open(p.github, "_blank");
+            codeBtn.style.opacity = "1";
+          } else {
+            codeBtn.onclick = null;
+            codeBtn.style.opacity = ".4";
+            codeBtn.textContent = "Private Repo";
+          }
+          document.getElementById("modal-bg").classList.add("open");
+          document.body.style.overflow = "hidden";
+          if (window.gsap) {
+            gsap.fromTo(
+              ".modal",
+              { y: 40, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+            );
+          }
+        }
+        function closeM() {
+          if (!window.gsap) {
+            document.getElementById("modal-bg").classList.remove("open");
+            document.body.style.overflow = "";
+            return;
+          }
+
+          gsap.to(".modal", {
+            y: 30,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.in",
             onComplete: () => {
+              document.getElementById("modal-bg").classList.remove("open");
+              document.body.style.overflow = "";
+            },
+          });
+        }
+        function closeMbg(e) {
+          if (e.target.id === "modal-bg") closeM();
+        }
+
+        function go(id) {
+          // fade out current section
+          const current = document.querySelector("section.active");
+          if (current) {
+            const switchSection = () => {
               current.style.opacity = "";
               document
                 .querySelectorAll("section")
                 .forEach((s) => s.classList.remove("active"));
               document.getElementById(id).classList.add("active");
-              gsap.fromTo(
-                "#" + id,
-                { opacity: 0, y: 16 },
-                { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" },
-              );
+              if (window.gsap) {
+                gsap.fromTo(
+                  "#" + id,
+                  { opacity: 0, y: 16 },
+                  { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" },
+                );
+              }
+
               // update nav
               document
                 .querySelectorAll("#nav-links a")
@@ -3148,8 +3255,9 @@
               const nd = document.getElementById("nd-" + id);
               if (nd) nd.classList.add("active");
               window.scrollTo(0, 0);
+
               // trigger page animations
-              ScrollTrigger.refresh();
+              if (window.ScrollTrigger) ScrollTrigger.refresh();
               if (id === "about") animateAbout();
               if (id === "projects") {
                 animateProjects();
@@ -3157,82 +3265,139 @@
               }
               if (id === "services") animateServices();
               if (id === "contact") animateContact();
-            },
-          });
-        } else {
-          document
-            .querySelectorAll("section")
-            .forEach((s) => s.classList.remove("active"));
-          document.getElementById(id).classList.add("active");
-          window.scrollTo(0, 0);
+            };
+
+            if (window.gsap) {
+              gsap.to(current, {
+                opacity: 0,
+                duration: 0.2,
+                ease: "power2.in",
+                onComplete: switchSection,
+              });
+            } else {
+              switchSection();
+            }
+          } else {
+            document
+              .querySelectorAll("section")
+              .forEach((s) => s.classList.remove("active"));
+            document.getElementById(id).classList.add("active");
+            window.scrollTo(0, 0);
+          }
         }
-      }
 
-      function toggleNav() {
-        const open = document
-          .getElementById("nav-drawer")
-          .classList.toggle("open");
-        document.getElementById("hbg").classList.toggle("open", open);
-        document.getElementById("nav-bd").classList.toggle("open", open);
-        document.body.style.overflow = open ? "hidden" : "";
-      }
-      function closeNav() {
-        document.getElementById("nav-drawer").classList.remove("open");
-        document.getElementById("hbg").classList.remove("open");
-        document.getElementById("nav-bd").classList.remove("open");
-        document.body.style.overflow = "";
-      }
-
-      function sendForm() {
-        const name = document.getElementById("fn").value;
-        const email = document.getElementById("fe").value;
-        const msg = document.getElementById("fm").value;
-        if (!name || !email || !msg) {
-          gsap.fromTo(
-            ".cform",
-            { x: 0 },
-            { x: [-8, 8, -8, 8, 0], duration: 0.4, ease: "power2.inOut" },
-          );
-          return;
+        function toggleNav() {
+          const open = document
+            .getElementById("nav-drawer")
+            .classList.toggle("open");
+          document.getElementById("hbg").classList.toggle("open", open);
+          document.getElementById("nav-bd").classList.toggle("open", open);
+          document.body.style.overflow = open ? "hidden" : "";
         }
-        // Build mailto link
-        const subject = encodeURIComponent("Project Inquiry from " + name);
-        const body = encodeURIComponent(
-          `Name: ${name}\nEmail: ${email}\nProject Type: ${document.getElementById("ft").value}\nBudget: ${document.getElementById("fb").value}\n\nDetails:\n${msg}`,
-        );
-        window.open(
-          `mailto:saurabh.damale.developer@gmail.com?subject=${subject}&body=${body}`,
-          "_blank",
-        );
-        document.getElementById("fok").style.display = "block";
-        gsap.fromTo(
-          "#fok",
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.4 },
-        );
-        ["fn", "fe", "ft", "fb", "fm"].forEach(
-          (i) => (document.getElementById(i).value = ""),
-        );
-        setTimeout(
-          () =>
-            gsap.to("#fok", {
-              opacity: 0,
-              duration: 0.4,
-              onComplete: () =>
-                (document.getElementById("fok").style.display = "none"),
-            }),
-          5000,
-        );
-      }
+        function closeNav() {
+          document.getElementById("nav-drawer").classList.remove("open");
+          document.getElementById("hbg").classList.remove("open");
+          document.getElementById("nav-bd").classList.remove("open");
+          document.body.style.overflow = "";
+        }
 
-      // ── INIT ──
-      window.addEventListener("load", () => {
-        initParticles();
-        animateHero();
-        initMagnetic();
-        initNavScroll();
-        renderProjects();
-      });
+        function sendForm(event) {
+          if (event) event.preventDefault();
+
+          const firstNameInput = document.getElementById("fn");
+          const lastNameInput = document.getElementById("ln");
+          const emailInput = document.getElementById("fe");
+          const feedbackInput = document.getElementById("fm");
+          const submitBtn = document.getElementById("form-info-btn");
+
+          const firstName = firstNameInput.value.trim();
+          const lastName = lastNameInput.value.trim();
+          const email = emailInput.value.trim();
+          const feedback = feedbackInput.value.trim();
+
+          // Validation
+          if (!firstName || !lastName || !email || !feedback) {
+            alert("Please fill out all fields.");
+            // Add shake animation with CSS
+            const form = document.querySelector(".cform");
+            form.style.animation = "shake 0.4s";
+            setTimeout(() => {
+              form.style.animation = "";
+            }, 400);
+            return;
+          }
+
+          // Validate email format
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+          }
+
+          if (typeof emailjs === "undefined") {
+            alert("Email service is not ready. Please refresh the page and try again.");
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending...";
+
+          // Same EmailJS payload and integration settings as index3.html
+          const formData = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            feedback: feedback,
+          };
+
+          emailjs
+            .send("service_ex9672a", "template_tua6e6k", formData)
+            .then(
+              function (response) {
+                // Show success message
+                const fok = document.getElementById("fok");
+                fok.style.display = "block";
+                fok.style.opacity = "1";
+                fok.style.animation = "fadeInUp 0.4s ease-out";
+
+                // Clear form fields
+                document.getElementById("form-info").reset();
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                  fok.style.animation = "fadeOut 0.4s ease-out";
+                  setTimeout(() => {
+                    fok.style.display = "none";
+                  }, 400);
+                }, 5000);
+              },
+              function (error) {
+                alert("Failed to send email. Please try again.");
+                console.error("EmailJS Error:", error);
+              },
+            )
+            .finally(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send Message →";
+            });
+        }
+
+        // ── INIT ──
+        // Initialize EmailJS
+        (function () {
+          if (typeof emailjs !== "undefined") {
+            emailjs.init("A8WOpcYrB7cNM98T7");
+          }
+        })();
+
+        window.addEventListener("load", () => {
+          initParticles();
+          animateHero();
+          initMagnetic();
+          initNavScroll();
+          initCardHover();
+          renderProjects();
+        });
     </script>
   </body>
 </html>
