@@ -2920,7 +2920,7 @@
             thumbGrad: "linear-gradient(135deg,#1a2a0a,#0f1a05)",
             tags: ["Laravel", "MySQL", "PhonePe", "SMS Gateway", "RESTful APIs"],
             github: null,
-            demo: null,
+            demo: "https://crackteck.com/",
             prob: "The client needed a complete e-commerce backend capable of serving both web and mobile clients with real-time order notifications and reliable payment processing for the Indian market.",
             built:
               "Architected and built the complete backend system with versioned RESTful APIs. Integrated PhonePe payment gateway with end-to-end transaction reconciliation. Implemented SMS gateway for real-time order status notifications. Optimised database queries to achieve a 40% improvement in API response time.",
@@ -2977,7 +2977,7 @@
             thumbGrad: "linear-gradient(135deg,#0a2a2a,#051515)",
             tags: ["Laravel", "MySQL", "Product Catalogue", "Order Management"],
             github: null,
-            demo: null,
+            demo: "https://yashtools.in/",
             prob: "The client needed a dedicated e-commerce platform for industrial products with sophisticated filtering and complete order tracking from placement to delivery.",
             built:
               "Developed a full product catalogue module with advanced filtering and search capabilities. Built a complete order management system with full status tracking and history, allowing customers and admins to monitor every stage of the order lifecycle.",
@@ -3000,8 +3000,8 @@
             thumb: "🔐",
             thumbGrad: "linear-gradient(135deg,#22103a,#071f26)",
             tags: ["Laravel 12", "Sanctum", "AES-256-GCM", "PBKDF2", "2FA"],
-            github: null,
-            demo: null,
+            github: "https://github.com/HackRoot1/vault-system",
+            demo: "https://web-vault-system.site/",
             prob: "Sensitive credentials, notes, and files needed to be stored securely while remaining accessible across devices. The system required strong encryption, authenticated API access, safe file handling, and reliable sync without exposing encryption keys in the database.",
             built:
               "Built a Laravel 12 API-first vault system using Sanctum bearer-token authentication, AES-256-GCM encryption for sensitive vault items, PBKDF2 key derivation with 100,000 iterations, encrypted private file storage, temporary download URLs, Google Authenticator 2FA, device tracking, soft deletes, and rate-limited endpoints.",
@@ -3180,6 +3180,7 @@
           if (p.demo) {
             demoBtn.onclick = () => window.open(p.demo, "_blank");
             demoBtn.style.opacity = "1";
+            demoBtn.textContent = "Live Demo";
           } else {
             demoBtn.onclick = null;
             demoBtn.style.opacity = ".4";
